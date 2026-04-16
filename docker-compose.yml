@@ -1,9 +1,23 @@
 services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      DB_HOST: db
+      DB_PORT: ${POSTGRES_DB_PORT}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+    depends_on:
+      - db
   db:
     image: postgres:15-alpine
     restart: always
     ports:
-      - 5432:5432
+      - "${POSTGRES_DB_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./db:/docker-entrypoint-initdb.d
