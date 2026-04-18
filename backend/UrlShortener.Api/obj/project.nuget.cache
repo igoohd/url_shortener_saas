@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "o9+arF9ckUk=",
+  "success": true,
+  "projectFilePath": "/Users/igor/Work/Personal_Projects/url_shortener_saas/backend/UrlShortener.Api/UrlShortener.Api.csproj",
+  "expectedPackageFiles": [
+    "/Users/igor/.nuget/packages/microsoft.aspnetcore.openapi/9.0.14/microsoft.aspnetcore.openapi.9.0.14.nupkg.sha512",
+    "/Users/igor/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
