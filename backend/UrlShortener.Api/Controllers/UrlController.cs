@@ -5,23 +5,22 @@ using Microsoft.AspNetCore.Mvc;
 public class UrlController : ControllerBase
 {
     private readonly DbConnectionFactory _dbConnectionFactory;
+    private readonly UrlShorteningService _urlShorteningService;
 
-    public UrlController(DbConnectionFactory dbConnectionFactory)
+    public UrlController(DbConnectionFactory dbConnectionFactory, UrlShorteningService urlShorteningService)
     {
         _dbConnectionFactory = dbConnectionFactory;
+        _urlShorteningService = urlShorteningService;
     }
 
     [HttpPost("shorten")]
-    public IActionResult Shorten([FromBody] string url)
+    public async Task<IActionResult> Shorten([FromBody] ShortenUrlRequest request)
     {
-        return Ok("not implemented yet");
-    }
+        var shortCode = _urlShorteningService.GenerateShortCode();
 
-    [HttpGet("test-db")]
-    public IActionResult TestDb()
-    {
         using var connection = _dbConnectionFactory.CreateConnection();
         connection.Open();
-        return Ok("Database connection successful");
+
+        return Ok("Shortened URL");
     }
 }
