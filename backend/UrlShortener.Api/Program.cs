@@ -3,6 +3,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddSingleton<DbConnectionFactory>();
+builder.Services.AddScoped<UrlRepository>();
+builder.Services.AddScoped<UrlShorteningService>();
 
 var app = builder.Build();
 
