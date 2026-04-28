@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 [Route("[controller]")]
 public class UrlController : ControllerBase
 {
-    private readonly DbConnectionFactory _dbConnectionFactory;
     private readonly UrlShorteningService _urlShorteningService;
 
-    public UrlController(DbConnectionFactory dbConnectionFactory, UrlShorteningService urlShorteningService)
+    public UrlController(UrlShorteningService urlShorteningService)
     {
-        _dbConnectionFactory = dbConnectionFactory;
         _urlShorteningService = urlShorteningService;
     }
 
