@@ -13,15 +13,15 @@ public class UrlRepository
         connection.Open();
 
         var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO UrlMappings (ShortCode, OriginalUrl) VALUES (@shortCode, @originalUrl)";
+        command.CommandText = "INSERT INTO url_mappings (short_code, original_url) VALUES (@short_code, @original_url)";
 
         var shortCodeParam = command.CreateParameter();
-        shortCodeParam.ParameterName = "@shortCode";
+        shortCodeParam.ParameterName = "@short_code";
         shortCodeParam.Value = shortCode;
         command.Parameters.Add(shortCodeParam);
 
         var originalUrlParam = command.CreateParameter();
-        originalUrlParam.ParameterName = "@originalUrl";
+        originalUrlParam.ParameterName = "@original_url";
         originalUrlParam.Value = originalUrl;
         command.Parameters.Add(originalUrlParam);
 
