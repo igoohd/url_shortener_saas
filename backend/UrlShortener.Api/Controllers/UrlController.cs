@@ -14,13 +14,13 @@ public class UrlController : ControllerBase
     }
 
     [HttpPost("shorten")]
-    public async Task<IActionResult> Shorten([FromBody] ShortenUrlRequest request)
+    public async Task<IActionResult> Shorten([FromBody] ShortenUrlRequest request, CancellationToken cancellationToken)
     {
-        var shortCode = _urlShorteningService.GenerateShortCode();
+        var shortCode = await _urlShorteningService.ShortenUrl(request.Url, cancellationToken);
 
-        using var connection = _dbConnectionFactory.CreateConnection();
-        connection.Open();
-
-        return Ok("Shortened URL");
+        return Ok(new ShortenUrlResponse
+        {
+            ShortenedUrl = $"{Request.Scheme}://{Request.Host}/{shortCode}"
+        });
     }
 }
