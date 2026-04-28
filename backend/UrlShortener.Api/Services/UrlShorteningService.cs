@@ -5,6 +5,7 @@ public class UrlShorteningService
     private readonly UrlRepository _urlRepository;
     private const int MaxRetries = 3;
     private const int InitialDelayMs = 100;
+    private const int ShortCodeLength = 6;
 
     public UrlShorteningService(UrlRepository urlRepository)
     {
@@ -14,7 +15,7 @@ public class UrlShorteningService
     public string GenerateShortCode()
     {
         const string base62Chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        var shortCode = new char[6];
+        var shortCode = new char[ShortCodeLength];
         for (int i = 0; i < shortCode.Length; i++)
         {
             shortCode[i] = base62Chars[Random.Shared.Next(base62Chars.Length)];
@@ -33,7 +34,7 @@ public class UrlShorteningService
                 await _urlRepository.SaveUrlMappingAsync(shortCode, originalUrl, cancellationToken);
                 return shortCode;
             }
-            catch (NpgsqlException) when (attempt < MaxRetries)
+            catch (NpgsqlException ex) when (attempt < MaxRetries && ex.IsTransient)
             {
                 await Task.Delay(InitialDelayMs * (int)Math.Pow(2, attempt - 1), cancellationToken);
             }
