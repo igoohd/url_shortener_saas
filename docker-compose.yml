@@ -6,6 +6,7 @@ services:
     ports:
       - "5001:80"
     environment:
+      ASPNETCORE_ENVIRONMENT: Development
       DB_HOST: db
       DB_PORT: ${POSTGRES_DB_PORT}
       DB_USER: ${POSTGRES_USER}
