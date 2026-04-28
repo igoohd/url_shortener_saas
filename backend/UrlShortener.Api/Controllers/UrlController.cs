@@ -15,10 +15,12 @@ public class UrlController : ControllerBase
     public async Task<IActionResult> Shorten([FromBody] ShortenUrlRequest request, CancellationToken cancellationToken)
     {
         var shortCode = await _urlShorteningService.ShortenUrl(request.Url, cancellationToken);
+        var shortenedUrl = $"{Request.Scheme}://{Request.Host}/{shortCode}";
 
-        return Ok(new ShortenUrlResponse
+        return Created(shortenedUrl, new ShortenUrlResponse
         {
-            ShortenedUrl = $"{Request.Scheme}://{Request.Host}/{shortCode}"
+            ShortenedUrl = shortenedUrl,
+            ShortCode = shortCode
         });
     }
 }
