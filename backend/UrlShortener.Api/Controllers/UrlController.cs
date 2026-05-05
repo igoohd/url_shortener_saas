@@ -17,7 +17,12 @@ public class UrlController : ControllerBase
     public async Task<IActionResult> Shorten([FromBody] ShortenUrlRequest request, CancellationToken cancellationToken)
     {
         var shortCode = await _urlShorteningService.ShortenUrl(request.Url, cancellationToken);
-        var shortenedUrl = $"{Request.Scheme}://{Request.Host}/{shortCode}";
+        var shortenedUrl = Url.Action(
+            action: nameof(RedirectToOriginalUrl),
+            controller: "Url",
+            values: new { shortCode },
+            protocol: Request.Scheme)
+            ?? throw new InvalidOperationException("Failed to generate the shortened URL.");
 
         return Created(shortenedUrl, new ShortenUrlResponse
         {
