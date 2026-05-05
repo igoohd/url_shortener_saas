@@ -5,6 +5,7 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<DbConnectionFactory>();
 builder.Services.AddScoped<UrlRepository>();
 builder.Services.AddScoped<UrlShorteningService>();
+builder.Services.AddScoped<UrlRedirectService>();
 
 var app = builder.Build();
 

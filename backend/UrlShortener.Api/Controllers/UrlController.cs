@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 public class UrlController : ControllerBase
 {
     private readonly UrlShorteningService _urlShorteningService;
+    private readonly UrlRedirectService _urlRedirectService;
 
-    public UrlController(UrlShorteningService urlShorteningService)
+    public UrlController(UrlShorteningService urlShorteningService, UrlRedirectService urlRedirectService)
     {
         _urlShorteningService = urlShorteningService;
+        _urlRedirectService = urlRedirectService;
     }
 
     [HttpPost("shorten")]
@@ -22,5 +24,17 @@ public class UrlController : ControllerBase
             ShortenedUrl = shortenedUrl,
             ShortCode = shortCode
         });
+    }
+
+    [HttpGet("{shortCode}")]
+    public async Task<IActionResult> RedirectToOriginalUrl(string shortCode, CancellationToken cancellationToken)
+    {
+        var originalUrl = await _urlRedirectService.GetOriginalUrlAsync(shortCode, cancellationToken);
+        if (originalUrl == null)
+        {
+            return NotFound();
+        }
+
+        return Redirect(originalUrl);
     }
 }

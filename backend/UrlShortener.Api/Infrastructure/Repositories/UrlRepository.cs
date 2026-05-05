@@ -27,4 +27,21 @@ public class UrlRepository
 
         await command.ExecuteNonQueryAsync(cancellationToken);
     }
+
+    public async Task<string?> GetOriginalUrlAsync(string shortCode, CancellationToken cancellationToken = default)
+    {
+        using var connection = _dbConnectionFactory.CreateConnection();
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "SELECT original_url FROM url_mappings WHERE short_code = @short_code";
+
+        var shortCodeParam = command.CreateParameter();
+        shortCodeParam.ParameterName = "@short_code";
+        shortCodeParam.Value = shortCode;
+        command.Parameters.Add(shortCodeParam);
+
+        var result = await command.ExecuteScalarAsync(cancellationToken);
+        return result as string;
+    }
 }
