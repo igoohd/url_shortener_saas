@@ -1,4 +1,11 @@
 services:
+  seq:
+    image: datalust/seq:2024.1
+    ports:
+      - "5341:80"
+    environment:
+      ACCEPT_EULA: Y
+    restart: always
   api:
     build:
       context: ./backend
@@ -12,6 +19,7 @@ services:
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
       DB_NAME: ${POSTGRES_DB}
+      SEQ_URL: http://seq:5341
     depends_on:
       - db
   db:
