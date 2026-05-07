@@ -1,10 +1,12 @@
 public class UrlRepository
 {
+    private readonly ILogger<UrlRepository> _logger;
     private readonly DbConnectionFactory _dbConnectionFactory;
 
-    public UrlRepository(DbConnectionFactory dbConnectionFactory)
+    public UrlRepository(DbConnectionFactory dbConnectionFactory, ILogger<UrlRepository> logger)
     {
         _dbConnectionFactory = dbConnectionFactory;
+        _logger = logger;
     }
 
     public async Task SaveUrlMappingAsync(string shortCode, string originalUrl, CancellationToken cancellationToken = default)
@@ -25,7 +27,14 @@ public class UrlRepository
         originalUrlParam.Value = originalUrl;
         command.Parameters.Add(originalUrlParam);
 
-        await command.ExecuteNonQueryAsync(cancellationToken);
+        var result = await command.ExecuteNonQueryAsync(cancellationToken);
+        if (result <= 0)
+        {
+            _logger.LogWarning("[SaveUrlMappingAsync] Failed to save URL mapping: {ShortCode} -> {OriginalUrl}", shortCode, originalUrl);
+            return;
+        }
+
+        _logger.LogInformation("[SaveUrlMappingAsync] Saved URL mapping: {ShortCode} -> {OriginalUrl}", shortCode, originalUrl);
     }
 
     public async Task<string?> GetOriginalUrlAsync(string shortCode, CancellationToken cancellationToken = default)
@@ -42,6 +51,13 @@ public class UrlRepository
         command.Parameters.Add(shortCodeParam);
 
         var result = await command.ExecuteScalarAsync(cancellationToken);
+        if (result == null)
+        {
+            _logger.LogWarning("[GetOriginalUrlAsync] No original URL found for short code: {ShortCode}", shortCode);
+            return null;
+        }
+
+        _logger.LogInformation("[GetOriginalUrlAsync] Retrieved original URL for short code {ShortCode}: {OriginalUrl}", shortCode, result);
         return result as string;
     }
 }
