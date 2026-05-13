@@ -3,10 +3,10 @@ import Icon from './Icon'
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-20 bg-background/70 backdrop-blur-xl">
+    <header className="sticky top-0 z-20 border-b border-border/70 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
-          <div className="h-12 w-12 overflow-hidden rounded-xl shadow-[var(--shadow-logo-glow)]">
+          <div className="h-12 w-12 overflow-hidden">
             <img
               src="/logo.png"
               alt="UrlShortenerLogo"
@@ -19,12 +19,12 @@ const Header = () => {
           </div>
         </div>
 
-        <nav className="hidden items-center gap-7 text-sm text-muted md:flex">
+        <nav className="hidden items-center gap-7 text-sm text-muted md:flex transition-all hover:border-secondary/70 hover:text-secondary">
           <a
             href="https://github.com/igoohd/url_shortener_saas"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-foreground transition-all hover:border-secondary/70 hover:text-secondary"
+            className="glass-soft inline-flex items-center gap-2 rounded-full px-4 py-2 text-foreground "
           >
             <Icon icon={siGithub} size={14} color="var(--color-secondary)" />
             GitHub

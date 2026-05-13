@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { ChangeEvent } from 'react'
-import { AlertTriangle, Link2, Rocket, Scissors, Sparkles, WandSparkles } from 'lucide-react'
+import { AlertTriangle, ExternalLink, Link2, Rocket, Scissors, Sparkles, WandSparkles } from 'lucide-react'
 
 const Hero = () => {
   const [longUrl, setLongUrl] = useState('')
@@ -31,12 +31,12 @@ const Hero = () => {
   return (
     <main className="relative flex flex-1 items-center px-6 py-10 sm:py-14">
       <section className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center text-center">
-        <span className="inline-flex items-center gap-2 rounded-full border border-secondary/40 bg-secondary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-secondary shadow-[var(--shadow-badge-glow)]">
+        <span className="neon-pill inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
           <Sparkles size={14} strokeWidth={2.2} />
           Fast. Simple. Reliable.
         </span>
 
-        <h2 className="mt-6 max-w-4xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+        <h2 className="display-hero mt-6 max-w-4xl text-4xl text-foreground sm:text-5xl md:text-6xl">
           <span className="bg-linear-to-r from-secondary via-primary to-accent-pink bg-clip-text text-transparent">
             Shorten
           </span>{' '}
@@ -47,7 +47,7 @@ const Hero = () => {
           Transform long, messy links into short, powerful URLs in a single click.
         </p>
 
-        <aside className="mt-6 w-full max-w-3xl rounded-2xl border border-accent-pink/25 bg-accent-pink/10 p-4 text-left backdrop-blur-xl">
+        <aside className="portfolio-note mt-6 w-full max-w-3xl rounded-2xl p-4 text-left backdrop-blur-xl">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-lg border border-accent-pink/30 bg-background/60 p-2">
               <AlertTriangle size={14} className="text-accent-pink" strokeWidth={2.2} />
@@ -58,7 +58,17 @@ const Hero = () => {
               </p>
               <p className="mt-2 text-sm text-muted">
                 This page is a portfolio demo. For architecture details, roadmap, and backend setup,
-                check the repository on GitHub .
+                check the repository on{' '}
+                <a
+                  href="https://github.com/igoohd/url_shortener_saas"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 font-semibold text-secondary transition-colors hover:text-foreground"
+                >
+                  GitHub
+                  <ExternalLink size={12} strokeWidth={2.2} />
+                </a>
+                .
               </p>
             </div>
           </div>
@@ -66,7 +76,7 @@ const Hero = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="mt-10 w-full max-w-3xl rounded-3xl border border-border bg-surface/70 p-4 text-left shadow-[var(--shadow-card-depth)] backdrop-blur-2xl sm:p-6"
+          className="glass-panel mt-10 w-full max-w-3xl rounded-2xl p-4 text-left sm:p-6"
         >
           <div className="flex flex-col gap-4 sm:flex-row">
             <input
@@ -74,11 +84,11 @@ const Hero = () => {
               value={longUrl}
               onChange={(event) => setLongUrl(event.target.value)}
               placeholder="https://very-long-and-messy-link.com/path?query=params"
-              className="w-full flex-1 rounded-2xl border border-border bg-background/70 px-5 py-3 text-sm text-foreground outline-none transition focus:border-secondary/70"
+              className="neon-input w-full flex-1 rounded-2xl border border-border bg-background/70 px-5 py-3 text-sm text-foreground outline-none"
             />
             <button
               type="submit"
-              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-foreground transition hover:bg-primary/90"
+              className="neon-button inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold text-foreground"
             >
               <Scissors size={14} strokeWidth={2.2} />
               Shorten URL
@@ -102,7 +112,7 @@ const Hero = () => {
           id="how-it-works"
           className="mt-12 grid w-full max-w-5xl gap-4 text-left md:grid-cols-3"
         >
-          <article className="rounded-2xl border border-border bg-surface/65 p-5">
+          <article className="glass-soft step-card rounded-2xl p-5">
             <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-secondary">
               <Link2 size={12} strokeWidth={2.4} /> Step 1
             </p>
@@ -111,7 +121,7 @@ const Hero = () => {
               Add any messy link with tracking parameters, folders, or long slugs.
             </p>
           </article>
-          <article className="rounded-2xl border border-border bg-surface/65 p-5">
+          <article className="glass-soft step-card rounded-2xl p-5">
             <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-secondary">
               <WandSparkles size={12} className="text-primary" strokeWidth={2.4} /> Step 2
             </p>
@@ -120,7 +130,7 @@ const Hero = () => {
               The link is trimmed into a clean, shareable format with one click.
             </p>
           </article>
-          <article className="rounded-2xl border border-border bg-surface/65 p-5">
+          <article className="glass-soft step-card rounded-2xl p-5">
             <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-secondary">
               <Rocket size={12} className="text-accent-pink" strokeWidth={2.4} /> Step 3
             </p>
