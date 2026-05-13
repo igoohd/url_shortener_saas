@@ -1,0 +1,176 @@
+.app-background {
+	overflow: hidden;
+	isolation: isolate;
+	background:
+		radial-gradient(circle at 0% 14%, rgba(124, 58, 237, 0.12), transparent 0%),
+		radial-gradient(circle at 0% 72%, rgba(6, 182, 212, 0.08), transparent 8%),
+		linear-gradient(180deg, rgba(5, 8, 22, 0.08), rgba(5, 8, 22, 0.18));
+}
+
+.app-background__base-glow,
+.app-background__grid,
+.app-background__stars,
+.app-background__aurora,
+.app-background__rings,
+.app-background__beam,
+.app-background__blob,
+.app-background__noise {
+	position: absolute;
+	inset: 0;
+}
+
+.app-background__base-glow {
+	background:
+		radial-gradient(circle at 1% 18%, rgba(124, 58, 237, 0.22), transparent 2%),
+		radial-gradient(circle at 82% 18%, rgba(6, 182, 212, 0.16), transparent 24%),
+		radial-gradient(circle at 52% 100%, rgba(244, 114, 182, 0.12), transparent 34%);
+	filter: blur(12px);
+}
+
+.app-background__grid {
+	background-image:
+		linear-gradient(to right, var(--bg-grid-line) 1px, transparent 1px),
+		linear-gradient(to bottom, var(--bg-grid-line) 1px, transparent 1px);
+	background-size: 64px 64px;
+	opacity: 0.16;
+	mask-image: radial-gradient(circle at 50% 36%, black 18%, transparent 85%);
+}
+
+.app-background__stars {
+	background-image:
+		radial-gradient(circle at 12% 18%, var(--bg-star) 0.7px, transparent 1.2px),
+		radial-gradient(circle at 74% 32%, var(--bg-star) 0.8px, transparent 1.3px),
+		radial-gradient(circle at 31% 64%, var(--bg-star) 0.65px, transparent 1.1px),
+		radial-gradient(circle at 86% 72%, var(--bg-star) 0.75px, transparent 1.2px),
+		radial-gradient(circle at 53% 82%, var(--bg-star) 0.7px, transparent 1.15px),
+		radial-gradient(circle at 46% 26%, var(--bg-star) 0.7px, transparent 1.1px),
+		radial-gradient(circle at 66% 12%, rgba(248, 250, 252, 0.7) 0.85px, transparent 1.25px),
+		radial-gradient(circle at 18% 78%, rgba(248, 250, 252, 0.56) 0.9px, transparent 1.3px);
+	opacity: 0.4;
+}
+
+.app-background__aurora {
+	inset: 8% -12% auto;
+	height: 56%;
+	background:
+		linear-gradient(115deg, rgba(124, 58, 237, 0) 18%, rgba(124, 58, 237, 0.24) 42%, rgba(6, 182, 212, 0.28) 58%, rgba(244, 114, 182, 0) 82%),
+		linear-gradient(255deg, rgba(6, 182, 212, 0) 12%, rgba(6, 182, 212, 0.14) 38%, rgba(124, 58, 237, 0.2) 54%, rgba(244, 114, 182, 0) 86%);
+	filter: blur(34px);
+	opacity: 0.45;
+	mix-blend-mode: screen;
+	transform: rotate(-10deg);
+}
+
+.app-background__rings {
+	inset: 12% auto auto 50%;
+	width: min(64rem, 82vw);
+	height: min(64rem, 82vw);
+	transform: translateX(-50%);
+	border-radius: 50%;
+	background:
+		radial-gradient(circle, transparent 0 46%, rgba(255, 255, 255, 0.06) 46.5%, transparent 47.5%),
+		radial-gradient(circle, transparent 0 58%, rgba(6, 182, 212, 0.08) 58.5%, transparent 59.5%),
+		radial-gradient(circle, transparent 0 70%, rgba(124, 58, 237, 0.09) 70.5%, transparent 71.5%);
+	mask-image: radial-gradient(circle at center, black 0 74%, transparent 86%);
+	opacity: 0.38;
+}
+
+.app-background__beam {
+	inset: auto;
+	top: 8%;
+	width: 32rem;
+	height: 120vh;
+	border-radius: 9999px;
+	filter: blur(10px);
+	opacity: 0.14;
+	mix-blend-mode: screen;
+	background: linear-gradient(180deg, rgba(6, 182, 212, 0), rgba(6, 182, 212, 0.18), rgba(124, 58, 237, 0));
+}
+
+.app-background__beam--left {
+	left: -8rem;
+	transform: rotate(26deg);
+}
+
+.app-background__beam--right {
+	right: -12rem;
+	background: linear-gradient(180deg, rgba(244, 114, 182, 0), rgba(244, 114, 182, 0.18), rgba(124, 58, 237, 0));
+	transform: rotate(-28deg);
+	animation-direction: alternate-reverse;
+	animation-duration: 24s;
+}
+
+.app-background__blob {
+	border-radius: 58% 42% 46% 54% / 42% 54% 46% 58%;
+	filter: blur(78px);
+	opacity: 0.9;
+}
+
+.app-background__blob--primary {
+	height: 34rem;
+	width: 34rem;
+	left: 50%;
+	top: -14%;
+	transform: translateX(-50%);
+	background: var(--bg-orb-primary);
+}
+
+.app-background__blob--secondary {
+	height: 28rem;
+	width: 28rem;
+	left: -6%;
+	bottom: -18%;
+	background: var(--bg-orb-secondary);
+}
+
+.app-background__blob--tertiary {
+	height: 24rem;
+	width: 24rem;
+	right: -10%;
+	top: 20%;
+	background: var(--bg-orb-tertiary);
+}
+
+.app-background__noise {
+	background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.1) 1px, transparent 0);
+	background-size: 3px 3px;
+	opacity: 0.035;
+	mix-blend-mode: soft-light;
+}
+
+@media (max-width: 768px) {
+	.app-background__aurora {
+		inset: 12% -30% auto;
+		height: 42%;
+		opacity: 0.52;
+	}
+
+	.app-background__rings {
+		width: 130vw;
+		height: 130vw;
+		top: 18%;
+	}
+
+	.app-background__beam {
+		width: 20rem;
+		opacity: 0.14;
+	}
+
+	.app-background__blob--primary {
+		height: 24rem;
+		width: 24rem;
+		top: -8%;
+	}
+
+	.app-background__blob--secondary {
+		height: 20rem;
+		width: 20rem;
+		left: -18%;
+	}
+
+	.app-background__blob--tertiary {
+		height: 18rem;
+		width: 18rem;
+		right: -18%;
+	}
+}
