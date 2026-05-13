@@ -18,6 +18,11 @@
 	font-family: 'Sora', 'Space Grotesk', 'Outfit', sans-serif;
 	background-color: #050816;
 	color: #f8fafc;
+	--bg-grid-line: rgba(148, 163, 184, 0.07);
+	--bg-star: rgba(248, 250, 252, 0.5);
+	--bg-orb-primary: rgba(124, 58, 237, 0.24);
+	--bg-orb-secondary: rgba(6, 182, 212, 0.2);
+	--bg-orb-tertiary: rgba(244, 114, 182, 0.18);
 	--radius-xl: 1.5rem;
 	--radius-2xl: 2rem;
 	--tracking-tight-hero: -0.035em;
@@ -59,6 +64,159 @@ body {
 	min-height: 100vh;
 }
 
+.app-background {
+	overflow: hidden;
+	isolation: isolate;
+}
+
+.bg-grid,
+.bg-stars,
+.bg-noise,
+.bg-orb {
+	position: absolute;
+	inset: 0;
+}
+
+.bg-grid {
+	background-image:
+		linear-gradient(to right, var(--bg-grid-line) 1px, transparent 1px),
+		linear-gradient(to bottom, var(--bg-grid-line) 1px, transparent 1px);
+	background-size: 64px 64px;
+	opacity: 0.18;
+	mask-image: radial-gradient(circle at 50% 36%, black 18%, transparent 85%);
+	animation: grid-shift 24s linear infinite;
+}
+
+.bg-stars {
+	background-image:
+		radial-gradient(circle at 12% 18%, var(--bg-star) 0.7px, transparent 1.2px),
+		radial-gradient(circle at 74% 32%, var(--bg-star) 0.8px, transparent 1.3px),
+		radial-gradient(circle at 31% 64%, var(--bg-star) 0.65px, transparent 1.1px),
+		radial-gradient(circle at 86% 72%, var(--bg-star) 0.75px, transparent 1.2px),
+		radial-gradient(circle at 53% 82%, var(--bg-star) 0.7px, transparent 1.15px),
+		radial-gradient(circle at 46% 26%, var(--bg-star) 0.7px, transparent 1.1px);
+	opacity: 0.52;
+	animation: stars-flicker 14s ease-in-out infinite alternate;
+}
+
+.bg-noise {
+	background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.1) 1px, transparent 0);
+	background-size: 3px 3px;
+	opacity: 0.035;
+	mix-blend-mode: soft-light;
+}
+
+.bg-orb {
+	border-radius: 9999px;
+	filter: blur(72px);
+	will-change: transform;
+}
+
+.bg-orb-primary {
+	height: 34rem;
+	width: 34rem;
+	left: 50%;
+	top: -18%;
+	transform: translateX(-50%);
+	background: var(--bg-orb-primary);
+	animation: orb-primary-drift 26s ease-in-out infinite;
+}
+
+.bg-orb-secondary {
+	height: 28rem;
+	width: 28rem;
+	left: -8%;
+	bottom: -20%;
+	background: var(--bg-orb-secondary);
+	animation: orb-secondary-drift 22s ease-in-out infinite alternate;
+}
+
+.bg-orb-tertiary {
+	height: 24rem;
+	width: 24rem;
+	right: -12%;
+	top: 18%;
+	background: var(--bg-orb-tertiary);
+	animation: orb-tertiary-drift 30s ease-in-out infinite;
+}
+
+@keyframes orb-primary-drift {
+	0% {
+		transform: translateX(-50%) translateY(0) scale(1);
+	}
+	50% {
+		transform: translateX(-46%) translateY(12px) scale(1.05);
+	}
+	100% {
+		transform: translateX(-50%) translateY(0) scale(1);
+	}
+}
+
+@keyframes orb-secondary-drift {
+	0% {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+	50% {
+		transform: translate3d(16px, -10px, 0) scale(1.04);
+	}
+	100% {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+}
+
+@keyframes orb-tertiary-drift {
+	0% {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+	50% {
+		transform: translate3d(-14px, 14px, 0) scale(1.03);
+	}
+	100% {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+}
+
+@keyframes stars-flicker {
+	0% {
+		opacity: 0.3;
+	}
+	100% {
+		opacity: 0.58;
+	}
+}
+
+@keyframes grid-shift {
+	0% {
+		transform: translateY(0);
+	}
+	100% {
+		transform: translateY(10px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.bg-grid,
+	.bg-stars,
+	.bg-orb-primary,
+	.bg-orb-secondary,
+	.bg-orb-tertiary {
+		animation: none;
+	}
+
+	.rotating-word,
+	.result-card-enter {
+		animation: none;
+	}
+
+	.glass-panel,
+	.glass-soft,
+	.neon-input,
+	.neon-button,
+	.step-card {
+		transition: none;
+	}
+}
+
 .display-hero {
 	font-weight: 800;
 	letter-spacing: var(--tracking-tight-hero);
@@ -71,6 +229,15 @@ body {
 	border: 1px solid var(--glass-border-strong);
 	box-shadow: var(--shadow-card-depth), inset 0 1px 0 rgba(255, 255, 255, 0.14);
 	backdrop-filter: blur(26px);
+	transition: border-color 180ms ease, box-shadow 220ms ease;
+}
+
+.glass-panel:hover {
+	border-color: color-mix(in srgb, var(--color-secondary) 42%, var(--glass-border-strong));
+	box-shadow:
+		0 26px 80px rgba(5, 8, 22, 0.8),
+		0 0 0 1px color-mix(in srgb, var(--color-secondary) 20%, transparent),
+		inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 .glass-soft {
@@ -78,6 +245,7 @@ body {
 	border: 1px solid var(--color-border);
 	box-shadow: var(--shadow-elevated);
 	backdrop-filter: blur(18px);
+	transition: transform 180ms ease, border-color 180ms ease, box-shadow 220ms ease;
 }
 
 .neon-pill {
@@ -113,6 +281,64 @@ body {
 		inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
+.neon-button:focus-visible {
+	outline: 0;
+	box-shadow:
+		0 0 0 2px color-mix(in srgb, var(--color-secondary) 70%, transparent),
+		0 0 0 5px color-mix(in srgb, var(--color-secondary) 30%, transparent),
+		var(--shadow-neon-primary),
+		inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.rotating-word-slot {
+	display: inline-grid;
+	overflow: visible;
+	vertical-align: baseline;
+	white-space: nowrap;
+	transition: width 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rotating-word-measure {
+	position: absolute;
+	visibility: hidden;
+	white-space: nowrap;
+	pointer-events: none;
+	user-select: none;
+}
+
+.rotating-word {
+	display: inline-block;
+	animation: word-rotate-in 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.result-card-enter {
+	animation: result-card-enter 460ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes word-rotate-in {
+	0% {
+		opacity: 0;
+		transform: translateY(8px) scale(0.992);
+		filter: blur(2px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+		filter: blur(0);
+	}
+}
+
+@keyframes result-card-enter {
+	0% {
+		opacity: 0;
+		transform: translateY(10px) scale(0.99);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
 .step-card {
 	position: relative;
 	overflow: hidden;
@@ -133,8 +359,8 @@ body {
 }
 
 .portfolio-note {
-	border: 1px solid color-mix(in srgb, var(--color-accent-pink) 45%, transparent);
-	background: color-mix(in srgb, var(--color-accent-pink) 12%, transparent);
+	border: 1px solid color-mix(in srgb, var(--color-primary) 45%, transparent);
+	background: color-mix(in srgb, var(--color-primary) 12%, transparent);
 	box-shadow: 0 10px 30px rgba(244, 114, 182, 0.18);
 }
 

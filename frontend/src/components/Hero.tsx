@@ -1,11 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
 import { AlertTriangle, ExternalLink, Link2, Rocket, Scissors, Sparkles, WandSparkles } from 'lucide-react'
+
+const HEADLINE_WORDS = ['Shorten', 'Simplify', 'Clean', 'Share', 'Transform']
 
 const Hero = () => {
   const [longUrl, setLongUrl] = useState('')
   const [shortUrl, setShortUrl] = useState('')
   const [error, setError] = useState('')
+  const [wordIndex, setWordIndex] = useState(0)
+  const [wordSlotWidth, setWordSlotWidth] = useState<number | null>(null)
+  const wordMeasureRef = useRef<HTMLSpanElement | null>(null)
+  const activeWord = HEADLINE_WORDS[wordIndex]
+
+  useLayoutEffect(() => {
+    if (!wordMeasureRef.current) {
+      return
+    }
+
+    setWordSlotWidth(wordMeasureRef.current.getBoundingClientRect().width)
+  }, [activeWord])
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setWordIndex((previous) => (previous + 1) % HEADLINE_WORDS.length)
+    }, 3500)
+
+    return () => window.clearInterval(intervalId)
+  }, [])
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -37,10 +59,18 @@ const Hero = () => {
         </span>
 
         <h2 className="display-hero mt-6 max-w-4xl text-4xl text-foreground sm:text-5xl md:text-6xl">
-          <span className="bg-linear-to-r from-secondary via-primary to-accent-pink bg-clip-text text-transparent">
-            Shorten
+          <span className="rotating-word-slot" style={{ width: wordSlotWidth ? `${wordSlotWidth}px` : 'auto' }}>
+            <span
+              key={activeWord}
+              className="rotating-word bg-linear-to-r from-secondary via-primary to-accent-pink bg-clip-text text-transparent"
+            >
+              {activeWord}
+            </span>
           </span>{' '}
           your URL
+          <span ref={wordMeasureRef} className="rotating-word-measure" aria-hidden="true">
+            {activeWord}
+          </span>
         </h2>
 
         <p className="mt-5 max-w-2xl text-base text-muted sm:text-lg">
@@ -49,15 +79,15 @@ const Hero = () => {
 
         <aside className="portfolio-note mt-6 w-full max-w-3xl rounded-2xl p-4 text-left backdrop-blur-xl">
           <div className="flex items-start gap-3">
-            <div className="mt-0.5 rounded-lg border border-accent-pink/30 bg-background/60 p-2">
-              <AlertTriangle size={14} className="text-accent-pink" strokeWidth={2.2} />
+            <div className="p-2">
+              <AlertTriangle size={14} className="text-primary" strokeWidth={2.2} />
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-pink">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                 Portfolio project
               </p>
               <p className="mt-2 text-sm text-muted">
-                This page is a portfolio demo. For architecture details, roadmap, and backend setup,
+                This page is a portfolio demo. For architecture details, docs, and backend setup,
                 check the repository on{' '}
                 <a
                   href="https://github.com/igoohd/url_shortener_saas"
@@ -98,7 +128,10 @@ const Hero = () => {
           {error && <p className="mt-3 text-sm text-error">{error}</p>}
 
           {shortUrl && (
-            <div className="mt-5 rounded-2xl border border-success/35 bg-success/10 p-4">
+            <div
+              key={shortUrl}
+              className="result-card-enter mt-5 rounded-2xl border border-success/35 bg-success/10 p-4"
+            >
               <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-success">
                 <Rocket size={13} strokeWidth={2.2} />
                 Short URL ready
@@ -113,7 +146,7 @@ const Hero = () => {
           className="mt-12 grid w-full max-w-5xl gap-4 text-left md:grid-cols-3"
         >
           <article className="glass-soft step-card rounded-2xl p-5">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-secondary">
+            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted">
               <Link2 size={12} strokeWidth={2.4} /> Step 1
             </p>
             <h3 className="mt-3 text-lg font-semibold text-foreground">Paste a long URL</h3>
