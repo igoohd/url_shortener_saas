@@ -1,5 +1,6 @@
 import { siGithub } from 'simple-icons/icons'
-import Icon from './Icon'
+import Icon from '../Icon/Icon'
+import './Header.css'
 
 const Header = () => {
   return (
@@ -24,7 +25,7 @@ const Header = () => {
             href="https://github.com/igoohd/url_shortener_saas"
             target="_blank"
             rel="noreferrer"
-            className="glass-soft inline-flex items-center gap-2 rounded-full px-4 py-2 text-foreground "
+            className="header-github-link inline-flex items-center gap-2 rounded-full px-4 py-2 text-foreground"
           >
             <Icon icon={siGithub} size={14} color="var(--color-secondary)" />
             GitHub

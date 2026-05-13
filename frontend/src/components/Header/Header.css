@@ -1,0 +1,21 @@
+.header-github-link {
+  background: var(--glass-surface-soft);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-elevated);
+  backdrop-filter: blur(18px);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 220ms ease;
+}
+
+.header-github-link:hover {
+  border-color: color-mix(in srgb, var(--color-secondary) 42%, var(--color-border));
+  box-shadow:
+    0 22px 60px rgba(3, 6, 18, 0.72),
+    0 0 0 1px color-mix(in srgb, var(--color-secondary) 16%, transparent);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-github-link {
+    transition: none;
+  }
+}

@@ -1,6 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
-import { AlertTriangle, ExternalLink, Link2, Rocket, Scissors, Sparkles, WandSparkles } from 'lucide-react'
+import { AlertTriangle, ExternalLink, Rocket, Scissors, Sparkles } from 'lucide-react'
+import HowItWorks from '../HowItWorks/HowItWorks'
+import './Hero.css'
 
 const HEADLINE_WORDS = ['Shorten', 'Simplify', 'Clean', 'Share', 'Transform']
 
@@ -141,38 +143,7 @@ const Hero = () => {
           )}
         </form>
 
-        <div
-          id="how-it-works"
-          className="mt-12 grid w-full max-w-5xl gap-4 text-left md:grid-cols-3"
-        >
-          <article className="glass-soft step-card rounded-2xl p-5">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted">
-              <Link2 size={12} strokeWidth={2.4} /> Step 1
-            </p>
-            <h3 className="mt-3 text-lg font-semibold text-foreground">Paste a long URL</h3>
-            <p className="mt-2 text-sm text-muted">
-              Add any messy link with tracking parameters, folders, or long slugs.
-            </p>
-          </article>
-          <article className="glass-soft step-card rounded-2xl p-5">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-secondary">
-              <WandSparkles size={12} className="text-primary" strokeWidth={2.4} /> Step 2
-            </p>
-            <h3 className="mt-3 text-lg font-semibold text-foreground">Generate a short slug</h3>
-            <p className="mt-2 text-sm text-muted">
-              The link is trimmed into a clean, shareable format with one click.
-            </p>
-          </article>
-          <article className="glass-soft step-card rounded-2xl p-5">
-            <p className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-secondary">
-              <Rocket size={12} className="text-accent-pink" strokeWidth={2.4} /> Step 3
-            </p>
-            <h3 className="mt-3 text-lg font-semibold text-foreground">Share everywhere</h3>
-            <p className="mt-2 text-sm text-muted">
-              Publish concise links in social posts, emails, docs, and campaigns.
-            </p>
-          </article>
-        </div>
+        <HowItWorks />
       </section>
     </main>
   )
