@@ -1,6 +1,6 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import type { ChangeEvent } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { AlertTriangle, ExternalLink, Rocket, Scissors, Sparkles } from 'lucide-react'
+import UrlService from '../../services/urlService'
 import HowItWorks from '../HowItWorks/HowItWorks'
 import './Hero.css'
 
@@ -10,6 +10,7 @@ const Hero = () => {
   const [longUrl, setLongUrl] = useState('')
   const [shortUrl, setShortUrl] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const [wordIndex, setWordIndex] = useState(0)
   const [wordSlotWidth, setWordSlotWidth] = useState<number | null>(null)
   const wordMeasureRef = useRef<HTMLSpanElement | null>(null)
@@ -31,24 +32,26 @@ const Hero = () => {
     return () => window.clearInterval(intervalId)
   }, [])
 
-  const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setError('')
+    setShortUrl('')
 
     if (!longUrl.trim()) {
       setError('Please enter a valid URL before shortening.')
-      setShortUrl('')
       return
     }
 
+    setLoading(true)
+
     try {
-      const parsedUrl = new URL(longUrl)
-      const slug = Math.random().toString(36).slice(2, 8)
-      setShortUrl(`https://urlshortener.app/${slug}`)
-      setError('')
-      setLongUrl(parsedUrl.href)
-    } catch {
-      setError('URL format looks invalid. Try including https://')
-      setShortUrl('')
+      const response = await UrlService.shortenUrl(longUrl)
+      setShortUrl(response.shortenedUrl)
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to shorten URL'
+      setError(errorMessage)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -120,10 +123,11 @@ const Hero = () => {
             />
             <button
               type="submit"
-              className="neon-button inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold text-foreground"
+              disabled={loading}
+              className="neon-button inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm font-semibold text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Scissors size={14} strokeWidth={2.2} />
-              Shorten URL
+              {loading ? 'Shortening...' : 'Shorten URL'}
             </button>
           </div>
 
