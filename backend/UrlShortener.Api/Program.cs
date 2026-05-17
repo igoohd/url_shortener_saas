@@ -12,14 +12,27 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog();
 
+var frontendOrigin = Environment.GetEnvironmentVariable("FRONTEND_ORIGIN") ?? "http://localhost:3000";
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins(frontendOrigin)
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 builder.Services.AddSingleton<DbConnectionFactory>();
 builder.Services.AddScoped<UrlRepository>();
 builder.Services.AddScoped<UrlShorteningService>();
 builder.Services.AddScoped<UrlRedirectService>();
 
 var app = builder.Build();
+
+app.UseCors("FrontendPolicy");
 
 app.MapControllers();
 
