@@ -97,14 +97,18 @@ Behavior:
 
 ### 1) Configure environment
 
-Root .env is already present with these keys:
+Create a local .env from the template:
+
+cp .env.example .env
+
+The .env file must include:
 
 - POSTGRES_USER
 - POSTGRES_PASSWORD
 - POSTGRES_DB
 - POSTGRES_DB_PORT
 
-Adjust values if needed.
+Adjust values if needed for your environment.
 
 ### 2) Start all services
 
